@@ -15,9 +15,9 @@ OUTPUT = PROJECT / "app" / "vocabulary.json"
 # included here.
 THAI_GLYPH_FIXES = {
     "ก่าเนิด": "กำเนิด", "ก่าลัง": "กำลัง", "คว่า": "คว่ำ",
-    "ค่านับ": "คำนับ", "ท่าเล": "ทำเล", "ล่าไย": "ลำไย",
+    "ค่านับ": "คำนับ", "คว่่า": "คว่ำ", "ท่าเล": "ทำเล", "ล่าไย": "ลำไย",
     "อ่าเภอ": "อำเภอ", "ขย้่า": "ขย้ำ", "ประจ่า": "ประจำ",
-    "กระดานด่า": "กระดานดำ", "กะหล่าปลี": "กะหล่ำปลี",
+    "กระดานด่า": "กระดานดำ", "กะหล่าปลี": "กะหล่ำปลี", "กะหล่่าปลี": "กะหล่ำปลี",
     "ครูประจ่าชั้น": "ครูประจำชั้น", "ดินน้่ามัน": "ดินน้ำมัน",
     "ต้มย่า": "ต้มยำ", "ท่าไร่": "ทำไร่", "ท่าลาย": "ทำลาย",
     "น้่าเกลือ": "น้ำเกลือ", "น้่าแข็ง": "น้ำแข็ง",
@@ -91,7 +91,11 @@ def read_thai(grade: int):
     words = {}
     for line in text.splitlines():
         for number, value in numbered_segments(line):
-            if 1 <= number <= limit and value:
+            is_document_header = (
+                any(marker in value for marker in ("ประจ ำปีกำรศึกษำ", "บัญชีคำพื้น", "ศูนย์เครือข่าย"))
+                or bool(re.search(r"\d", value))
+            )
+            if 1 <= number <= limit and value and not is_document_header:
                 words[number] = THAI_GLYPH_FIXES.get(value, value)
     if sorted(words) != list(range(1, limit + 1)):
         raise ValueError(f"Thai grade {grade}: source sequence is incomplete")

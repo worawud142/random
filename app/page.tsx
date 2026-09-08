@@ -200,7 +200,7 @@ export default function Home() {
           ))}
         </div>
 
-        <footer className="mt-7 flex flex-col gap-3 border-t border-[#dfe2ee] pt-5 text-sm text-[#6b7184] sm:flex-row sm:items-center sm:justify-between"><p>ข้อมูลจากบัญชีคำพื้นฐานเพื่อใช้ในการทดสอบ ปีการศึกษา 2563</p><button onClick={randomize} className="inline-flex items-center gap-2 self-start font-black text-[#625bf6] transition hover:text-[#443cdb]"><RefreshCw className="size-4" /> สุ่มอีกครั้ง</button></footer>
+        <footer className="mt-7 flex justify-end border-t border-[#dfe2ee] pt-5 text-sm text-[#6b7184]"><button onClick={randomize} className="inline-flex items-center gap-2 font-black text-[#625bf6] transition hover:text-[#443cdb]"><RefreshCw className="size-4" /> สุ่มอีกครั้ง</button></footer>
       </section>
     </main>
   );
