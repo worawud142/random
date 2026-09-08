@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+:root {
+  --background: #f7f8fc;
+  --foreground: #20243a;
+  --popover: #ffffff;
+  --popover-foreground: #20243a;
+  --primary: #625bf6;
+  --primary-foreground: #ffffff;
+  --muted: #eef0f6;
+  --muted-foreground: #686f83;
+  --border: #dfe2ee;
+  --input: #dfe2ee;
+  --ring: #625bf6;
+  --radius: 0.75rem;
+  --font-sans: "Noto Sans Thai", "Thonburi", "Tahoma", system-ui, sans-serif;
+}
+
+* { border-color: var(--border); }
+html { background: var(--background); font-family: var(--font-sans); }
+body { margin: 0; background: var(--background); color: var(--foreground); }
+button, [role="button"] { cursor: pointer; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 80px 0 auto;
+  height: 320px;
+  pointer-events: none;
+  background: radial-gradient(circle at 12% 10%, rgba(255, 194, 95, .16), transparent 27%), radial-gradient(circle at 82% 4%, rgba(98, 91, 246, .12), transparent 28%);
+}
+
+.word-card { transition: transform .18s ease, box-shadow .18s ease; }
+.word-card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(38, 46, 82, .11); }
+
+@media print {
+  header, .controls-panel, footer { display: none !important; }
+  main, section { background: white !important; }
+  .word-card { break-inside: avoid; box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
