@@ -56,6 +56,25 @@ THAI_GLYPH_FIXES = {
     "อ่ามาตย์": "อำมาตย์",
 }
 
+# Review marks from the combined ป.1-ป.6 source PDF. Red highlights mean the
+# entry must not be included in the random pool. IDs remain the source IDs so
+# the remaining entries can still be traced back to the original documents.
+THAI_EXCLUDED_IDS = {
+    1: {17, 51, 65, 67, 100, 112, 132, 136, 152, 166, 231, 233, 247, 277, 283, 284},
+    2: {16, 47, 212, 236, 264, 277, 286},
+    3: {54, 55, 60, 70, 165, 191, 204},
+    4: {18, 82, 225, 249, 287, 315, 321, 344, 452, 453, 483},
+    5: {21, 98, 248, 271, 290, 312, 339, 407, 408},
+    6: set(),
+}
+
+# Strike-out annotations specify replacements rather than removals.
+THAI_ENTRY_FIXES = {
+    (4, 14): "เกษมศรี",
+    (4, 361): "สมุนไพร",
+    (4, 408): "เสนาอำมาตย์",
+}
+
 ENGLISH_MEANING_FIXES = {
     "น ้าชา": "น้ำชา", "น ้าแข็ง": "น้ำแข็ง", "น ้าตาล": "น้ำตาล",
     "น ้าหมึก": "น้ำหมึก", "แม่น ้า": "แม่น้ำ", "น ้าผลไม้": "น้ำผลไม้",
@@ -105,7 +124,11 @@ def read_thai(grade: int):
                 words[number] = THAI_GLYPH_FIXES.get(value, value)
     if sorted(words) != list(range(1, limit + 1)):
         raise ValueError(f"Thai grade {grade}: source sequence is incomplete")
-    return [{"id": number, "word": words[number]} for number in sorted(words)]
+    return [
+        {"id": number, "word": THAI_ENTRY_FIXES.get((grade, number), words[number])}
+        for number in sorted(words)
+        if number not in THAI_EXCLUDED_IDS[grade]
+    ]
 
 
 def read_english(grade: int):
