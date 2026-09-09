@@ -121,7 +121,8 @@ def read_thai(grade: int):
                 or bool(re.search(r"\d", value))
             )
             if 1 <= number <= limit and value and not is_document_header:
-                words[number] = THAI_GLYPH_FIXES.get(value, value)
+                normalized = THAI_GLYPH_FIXES.get(value, value)
+                words[number] = re.sub(r"\s*\([^)]*\)\s*$", "", normalized)
     if sorted(words) != list(range(1, limit + 1)):
         raise ValueError(f"Thai grade {grade}: source sequence is incomplete")
     return [
